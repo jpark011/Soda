@@ -46,7 +46,7 @@ void BottlingPlant::main() {
         _When( hasProduction ) _Accept( getShipment ) {
         } // _Accept
         for ( unsigned int i = 0; i < 4; i++ ) {
-            production[i] = mprng( maxStockPerFlavour );
+            production[i] = mprng( maxShippedPerFlavour );
         } // for
 
         yield( timeBetweenShipments );
