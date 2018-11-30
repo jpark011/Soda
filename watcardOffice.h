@@ -9,9 +9,11 @@ _Monitor Bank;
 
 _Task WATCardOffice {
     struct Args {
+        unsigned int stdId;
         unsigned int fund;
         WATCard* watcard;
-        Args( unsigned int fund, WATCard* watcard = nullptr ) : fund(fund), watcard(watcard) {}
+        Args( unsigned int stdId, unsigned int fund, WATCard* watcard = nullptr ) 
+            : stdId(stdId), fund(fund), watcard(watcard) {}
     };
     struct Job { // marshalled arguments and return future
         Args args; // call arguments (YOU DEFINE “Args”)
@@ -20,11 +22,14 @@ _Task WATCardOffice {
     };
 
     _Task Courier {
+        Printer& printer;
         WATCardOffice& watcardOffice;
+        Bank& bank;
 
         void main();
     public:
-        Courier( WATCardOffice& watcardOffice );
+        Courier( Printer& printer, WATCardOffice& watcardOffice, Bank& bank );
+        ~Courier();
     }; // communicates with bank
 
     Printer& printer;

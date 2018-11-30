@@ -10,7 +10,7 @@ extern MPRNG mprng;
 WATCardOffice::WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers )
                 : printer(prt), bank(bank),  numCouriers(numCouriers) {
     for ( unsigned int i = 0; i < numCouriers; i++ ) {
-        couriers.push_back( new WATCardOffice::Courier( *this ) );
+        couriers.push_back( new WATCardOffice::Courier( printer, *this, bank ) );
     } // for
 }
 
@@ -26,14 +26,14 @@ WATCardOffice::~WATCardOffice() {
 }
 
 WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount ) {
-    Job* newJob = new Job( { amount } );
+    Job* newJob = new Job( { sid, amount } );
     jobs.push_back( newJob );
 
     return newJob->result;
 }
 
 WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard *card ) {
-    Job* newJob = new Job( { amount, card } );
+    Job* newJob = new Job( { sid, amount, card } );
     jobs.push_back( newJob );
 
     return newJob->result;

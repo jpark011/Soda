@@ -13,6 +13,7 @@ void Bank::deposit( unsigned int id, unsigned int amount ) {
 }
 
 void Bank::withdraw( unsigned int id, unsigned int amount ) {
-    while ( stdBalances[id] < amount ) _Accept( deposit );
+    while ( stdBalances[id] < amount ) 
+        _Accept( deposit );
     stdBalances[id] -= amount;
 }
