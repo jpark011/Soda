@@ -2,6 +2,8 @@
 #define __WATCARD_H__
 
 class WATCard {
+    unsigned int balance;
+
     WATCard( const WATCard & ) = delete; // prevent copying
     WATCard & operator=( const WATCard & ) = delete;
 public:
