@@ -1,6 +1,7 @@
 #include "watcardOffice.h"
 #include "printer.h"
 #include "bank.h"
+#include "MPRNG.h"
 
 using namespace std;
 
