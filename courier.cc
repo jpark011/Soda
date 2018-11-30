@@ -7,5 +7,10 @@ WATCardOffice::Courier::Courier( WATCardOffice& watcardOffice )
 }
 
 void WATCardOffice::Courier::main() {
-    watcardOffice.requestWork();
+    while (true) {
+        Job* job = watcardOffice.requestWork();
+
+
+        job.delivery
+    } // while
 }

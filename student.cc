@@ -27,34 +27,32 @@ void Student::main() {
     WATCard::FWATCard watcard = watcardOffice.create( id, INIT_BALANCE );
     WATCard::FWATCard giftcard = groupoff.giftcard();
 
-    VendingMachine* vm = nullptr;
+    VendingMachine* vm = nameServer.getMachine( id );;
 
     for ( unsigned int i = 0; i < numPurchases; i++ ) {
-        try {
-            yield( mprng(1, 10) );      // wait before buy
-            if () { // if watcard is lost
+        yield( mprng(1, 10) );      // wait before buy
+        while (true) {
+            try {
+                _Select( watcard ) {
+                    vm->buy( (VendingMachine::Flavours) favSoda, *watcard );
+                } or _Select( giftcard ) {
+                    vm->buy( (VendingMachine::Flavours) favSoda, *giftcard );
+                    giftcard.reset();
+                }
+                // bought a soda!
+                break;
+            } catch ( VendingMachine::Free& ) {
+                yield(4);
+                // free soda!
+                break;                    
+            } catch ( VendingMachine::Funds& ) {
+                unsigned int fundToAdd = INIT_BALANCE + vendings[j]->cost();
+                watcardOffice.transfer( id, fundToAdd , &watcard );
+            } catch ( VendingMachine::Stock& ) {
+                vm = nameServer.getMachine( id );;
+            } catch ( WATCardOffice::Lost& ) {
                 watcard = watcardOffice.create( id, INIT_BALANCE );
-            } // if
-
-            while (true) {
-                try {
-                    if ( vm == nullptr ) { // find new vending machine
-                        vm = nameServer.getMachine( id );
-                    }
-                    vm->buy( (VendingMachine::Flavours) favSoda, watcard );
-                    break;
-                } catch ( VendingMachine::Free& ) {
-                    yield(4);
-                    break;                    
-                } catch ( VendingMachine::Funds& ) {
-                    unsigned int fundToAdd = INIT_BALANCE + vendings[j]->cost();
-                    watcardOffice.transfer( id, fundToAdd , &watcard );
-                } catch ( VendingMachine::Stock& ) {
-                    vm = nullptr;
-                } // try
-            } // while
-        } catch ( WATCardOffice::Lost& ) {
-            watcard = 
-        } // try
+            }// try
+        } // while
     } // for
 }
