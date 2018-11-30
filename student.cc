@@ -18,11 +18,11 @@ Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOf
 }
 
 void Student::main() {
-    const unsigned int NUM_FLAVORS = 3;
+    const unsigned int NUM_FLAVORS = 4;
     const unsigned int INIT_BALANCE = 5;
 
     unsigned int numPurchases = mprng(1, maxPurchases);
-    unsigned int favSoda = mprng( NUM_FLAVORS ); 
+    unsigned int favSoda = mprng( NUM_FLAVORS - 1 ); 
 
     WATCard::FWATCard watcard = watcardOffice.create( id, INIT_BALANCE );
     WATCard::FWATCard giftcard = groupoff.giftcard();

@@ -1,14 +1,26 @@
 #ifndef __VENDING_MACHINE_H__
 #define __VENDING_MACHINE_H__
+#include <map>
 
 _Monitor Printer;
 _Task NameServer;
 
 _Task VendingMachine {
+    static const unsigned int NUM_FLAVOURS = 4;
+    Printer& printer;
+    NameServer& nameServer;
+    unsigned int id;
+    unsigned int sodaCost;
+    unsigned int maxStockPerFlavour;
+    unsigned int inventories[NUM_FLAVOURS];
+
     void main();
 public:
     enum Flavours {
-
+        Pepsi,
+        Coke,
+        Cola,
+        McCol       // yeah
     }; // flavours of soda (YOU DEFINE)
     
     _Event Free {}; // free, advertisement
