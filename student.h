@@ -7,6 +7,13 @@ _Task WATCardOffice;
 _Task Groupoff;
 
 _Task Student {
+    Printer& printer;
+    NameServer& nameServer;
+    WATCardOffice& watcardOffice;
+    Groupoff& groupoff;
+    unsigned int id;
+    unsigned int maxPurchases;
+    
     void main();
 public:
     Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, 
