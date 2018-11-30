@@ -1,5 +1,6 @@
 #ifndef __WATCARD_OFFICE_H__
 #define __WATCARD_OFFICE_H__
+#include <vector>
 #include "watcard.h"
 
 _Monitor Printer;
@@ -13,11 +14,17 @@ _Task WATCardOffice {
     };
 
     _Task Courier {
+        WATCardOffice& watcardOffice;
+
         void main();
     public:
-        Courier();
+        Courier( WATCardOffice& watcardOffice );
     }; // communicates with bank
 
+    Printer& printer;
+    Bank & bank;
+    unsigned int numCouriers;
+    vector<Courier> couriers;
     void main();
 public:
     _Event Lost {}; // lost WATCard
