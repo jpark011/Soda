@@ -27,7 +27,7 @@ void Student::main() {
     WATCard::FWATCard watcard = watcardOffice.create( id, INIT_BALANCE );
     WATCard::FWATCard giftcard = groupoff.giftcard();
 
-    VendingMachine* vendings[] = nameServer.getMachineList();
+    VendingMachine* vm = nullptr;
 
     for ( unsigned int i = 0; i < numPurchases; i++ ) {
         try {
@@ -36,11 +36,12 @@ void Student::main() {
                 watcard = watcardOffice.create( id, INIT_BALANCE );
             } // if
 
-            unsigned int j = 0;     // iterate vending machines
             while (true) {
                 try {
-                    vendings[j]->buy( (VendingMachine::Flavours) favSoda,
-                        watcard );
+                    if ( vm == nullptr ) { // find new vending machine
+                        vm = nameServer.getMachine( id );
+                    }
+                    vm->buy( (VendingMachine::Flavours) favSoda, watcard );
                     break;
                 } catch ( VendingMachine::Free& ) {
                     yield(4);
@@ -49,8 +50,7 @@ void Student::main() {
                     unsigned int fundToAdd = INIT_BALANCE + vendings[j]->cost();
                     watcardOffice.transfer( id, fundToAdd , &watcard );
                 } catch ( VendingMachine::Stock& ) {
-                    j++;
-                    j %= vendings.length; 
+                    vm = nullptr;
                 } // try
             } // while
         } catch ( WATCardOffice::Lost& ) {
