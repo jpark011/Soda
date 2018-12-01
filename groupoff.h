@@ -1,5 +1,7 @@
 #ifndef __GROUPOFF_H__
 #define __GROUPOFF_H__
+#include <queue>
+#include <uFuture.h>
 #include "watcard.h"
 
 _Monitor Printer;
@@ -10,6 +12,7 @@ _Task Groupoff {
     unsigned int sodaCost;
     unsigned int groupoffDelay;
     unsigned int numGiftcards;
+    std::queue<FWATCard*> giftcards;
     
     void main();
 public:

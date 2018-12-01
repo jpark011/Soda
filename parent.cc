@@ -26,6 +26,6 @@ void Parent::main() {
             yield( parentalDelay );
 
             bank.deposit( student, money );
-        } // 
+        } // _Accept
     } // while
 }
