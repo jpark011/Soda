@@ -8,6 +8,7 @@ using namespace std;					// direct access to std
 #include "parent.h"
 #include "groupoff.h"
 #include "watcardOffice.h"
+#include "nameServer.h"
 // global definition
 MPRNG mprng;
 
@@ -50,4 +51,5 @@ int main( int argc, char * argv[] ) {
     Parent parent( printer, bank, config.numStudents, config.parentalDelay );
     Groupoff groupoff( printer, config.numStudents, config.sodaCost, config.groupoffDelay );
     WATCardOffice office( printer, bank, config.numCouriers );
+    NameServer ns( printer, config.numVendingMachines, config.numStudents );
 } // main
