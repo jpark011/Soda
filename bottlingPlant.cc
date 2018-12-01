@@ -1,6 +1,7 @@
 #include "bottlingPlant.h"
 #include "printer.h"
 #include "nameServer.h"
+#include "truck.h"
 #include "MPRNG.h"
 
 extern MPRNG mprng;
@@ -26,7 +27,6 @@ void BottlingPlant::getShipment( unsigned int cargo[ ] ) {
 
     for ( unsigned int i = 0; i < 4; i++ ) {
         cargo[i] = production[i];
-        production[i] = 0;
     } // for
 }
 
@@ -38,17 +38,19 @@ bool BottlingPlant::hasProduction() {
 }
 
 void BottlingPlant::main() {
+    Truck truck( printer, nameServer, *this, numVendingMachines, maxStockPerFlavour );
+
     while (true) {
-        _Accept( ~BottlingPlant ) {
-            timeToShut = true;
-            break;
-        }
-        _When( hasProduction ) _Accept( getShipment ) {
-        } // _Accept
         for ( unsigned int i = 0; i < 4; i++ ) {
             production[i] = mprng( maxShippedPerFlavour );
         } // for
-
         yield( timeBetweenShipments );
+
+        _Accept( ~BottlingPlant ) {
+            timeToShut = true;
+            break;
+        } or _Accept( getShipment ) {
+            production = { 0, 0, 0, 0 };
+        } // _Accept
     } // while
 }
