@@ -2,7 +2,7 @@
 #define __NAME_SERVER_H__
 #include <vector>
 
-_Monitor Printer;
+_Cormonitor Printer;
 _Task VendingMachine;
 
 _Task NameServer {

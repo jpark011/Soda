@@ -1,7 +1,7 @@
 #ifndef __TRUCK_H__
 #define __TRUCK_H__
 
-_Monitor Printer;
+_Cormonitor Printer;
 _Task BottlingPlant;
 
 _Task Truck {

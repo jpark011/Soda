@@ -1,7 +1,7 @@
 #ifndef __PARENT_H__
 #define __PARENT_H__
 
-_Monitor Printer;
+_Cormonitor Printer;
 
 _Task Parent {
     Printer& printer;

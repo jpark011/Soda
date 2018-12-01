@@ -4,7 +4,7 @@
 #include <queue>
 #include "watcard.h"
 
-_Monitor Printer;
+_Cormonitor Printer;
 _Monitor Bank;
 
 _Task WATCardOffice {

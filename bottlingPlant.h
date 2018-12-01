@@ -1,7 +1,7 @@
 #ifndef __BOTTLING_PLANT_H__
 #define __BOTTLING_PLANT_H__
 
-_Monitor Printer;
+_Cormonitor Printer;
 _Task NameServer;
 
 _Task BottlingPlant {
