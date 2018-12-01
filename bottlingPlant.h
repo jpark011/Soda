@@ -14,7 +14,6 @@ _Task BottlingPlant {
     unsigned int production[4];
     bool timeToShut;
 
-    bool hasProduction();
     void main();
 public:
     _Event Shutdown {}; // shutdown plant
