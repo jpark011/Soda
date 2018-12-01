@@ -8,26 +8,28 @@ extern MPRNG mprng;
 
 using namespace std;
 
-VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int sodaCost, unsigned int maxStockPerFlavour )
-        : printer(prt), nameServer(nameServer), id(id), sodaCost(sodaCost), maxStockPerFlavour(maxStockPerFlavour) {
+VendingMachine::VendingMachine( Printer & prt, NameServer & nameServer, unsigned int id, unsigned int sodaCost )
+        : printer(prt), nameServer(nameServer), id(id), sodaCost(sodaCost)) {
     inventories = { 0, 0, 0, 0 };
     nameServer.VMregister( this );
 }
 
 void VendingMachine::buy( VendingMachine::Flavours flavour, WATCard & card ) {
-        if ( card.getBalance() < cost() ) {
-            _Throw Funds();
-        } // if
+    if ( card.getBalance() < cost() ) {
+        _Throw Funds();
+    } // if
 
-        if ( inventories[flavour] <= 0 ) {
-            _Throw Stock();
-        } // if
+    if ( inventories[flavour] <= 0 ) {
+        _Throw Stock();
+    } // if
 
-        if ( prng(4) == 0 ) {
-            _Throw Free();
-        } // if
+    didBuy = true;
+    if ( prng(4) == 0 ) {
+        _Throw Free();
+    } // if
 
-        card.withdraw( cost() );
+    card.withdraw( cost() );
+    lastFlavour = flavour;
 }
 
 unsigned int* VendingMachine::inventory() {
@@ -46,10 +48,14 @@ _Nomutex unsigned int VendingMachine::getId() {
 }
 
 void VendingMachine::main() {
-    _Accept( buy ) {
-
-    } or _Accept( inventory ) {
-        _Accept( restocked ) {
+    while (true) {
+        _Accept( buy ) {
+            if ( didBuy ) {
+                inventories[lastFlavour]--;
+            } // if
+            didBuy = false;
+        } or _Accept( inventory ) {
+            _Accept( restocked ); // _Accept
         } // _Accept
-    } // _Accept
+    } // while
 }

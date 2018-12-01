@@ -11,8 +11,9 @@ _Task VendingMachine {
     NameServer& nameServer;
     unsigned int id;
     unsigned int sodaCost;
-    unsigned int maxStockPerFlavour;
     unsigned int inventories[NUM_FLAVOURS];
+    bool didBuy;
+    Flavours lastFlavour;
 
     void main();
 public:
@@ -27,7 +28,7 @@ public:
     _Event Funds {}; // insufficient funds
     _Event Stock {}; // out of stock for particular flavour
     VendingMachine( Printer & prt, NameServer & nameServer, unsigned int id, 
-        unsigned int sodaCost, unsigned int maxStockPerFlavour );
+        unsigned int sodaCost );
     void buy( Flavours flavour, WATCard & card );
     unsigned int* inventory();
     void restocked();
