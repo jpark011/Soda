@@ -4,7 +4,7 @@
 
 _Monitor Bank {
     unsigned int numStudents;
-    vector<unsigned int> stdBalances;
+    std::vector<unsigned int> stdBalances;
 public:
     Bank( unsigned int numStudents );
     void deposit( unsigned int id, unsigned int amount );
