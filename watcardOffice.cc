@@ -10,46 +10,55 @@ extern MPRNG mprng;
 WATCardOffice::WATCardOffice( Printer & prt, Bank & bank, unsigned int numCouriers )
                 : printer(prt), bank(bank),  numCouriers(numCouriers) {
     for ( unsigned int i = 0; i < numCouriers; i++ ) {
-        couriers.push_back( new WATCardOffice::Courier( printer, *this, bank ) );
+        couriers.push_back( new WATCardOffice::Courier( printer, *this, bank, i ) );
     } // for
 }
 
 WATCardOffice::~WATCardOffice() {
-    for ( auto courier = couriers.begin(); i != couriers.end(); i++ ) {
+    for ( auto courier = couriers.begin(); courier != couriers.end(); courier++ ) {
         delete *courier;
     } // for
-
-    for ( auto job = jobs.begin(); i != jobs.end(); i++ ) {
-        (*job)->result.cancel();
-        delete *job;
-    } // for
+    while ( !jobs.empty() ) {
+        Job * job = jobs.front();
+        jobs.pop();
+        job->result.cancel();
+        delete job;
+    } // while
 }
 
 WATCard::FWATCard WATCardOffice::create( unsigned int sid, unsigned int amount ) {
     Job* newJob = new Job( { sid, amount } );
-    jobs.push_back( newJob );
+    jobs.push( newJob );
 
     return newJob->result;
 }
 
 WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount, WATCard *card ) {
     Job* newJob = new Job( { sid, amount, card } );
-    jobs.push_back( newJob );
+    jobs.push( newJob );
 
     return newJob->result;
 }
 
-Job* WATCardOffice::requestWork() {
+WATCardOffice::Job* WATCardOffice::requestWork() {
     return jobs.front();
 }
 
 void WATCardOffice::main() {
+    printer.print( Printer::WATCardOffice, 'S' );
     while (true) {
         _Accept( ~WATCardOffice ) {
             break;
-        } or _Accept( create, transfer ) {
+        } or _Accept( create ) {
+            Args args = jobs.front()->args; 
+            printer.print( Printer::WATCardOffice, 'C', args.stdId, args.fund );
+        } or _Accept( transfer ) {
+            Args args = jobs.front()->args; 
+            printer.print( Printer::WATCardOffice, 'T', args.stdId, args.fund );
         } or _When( !jobs.empty() ) _Accept( requestWork ) {
-            jobs.pop_front();
+            jobs.pop();
+            printer.print( Printer::WATCardOffice, 'W' );
         } // _Accept
     } // while
+    printer.print( Printer::WATCardOffice, 'F' );
 }
