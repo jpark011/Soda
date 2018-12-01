@@ -1,5 +1,5 @@
-#ifndef __BOTTLING_PLANT_H__
-#define __BOTTLING_PLANT_H__
+#ifndef __TRUCK_H__
+#define __TRUCK_H__
 
 _Monitor Printer;
 _Task BottlingPlant;
@@ -11,7 +11,6 @@ _Task Truck {
     unsigned int numVendingMachines; 
     unsigned int maxStockPerFlavour;
 
-    bool isEmpty();   
     void main();
 public:
     Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,

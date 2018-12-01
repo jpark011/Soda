@@ -1,5 +1,5 @@
-#ifndef __PRINTER_H__
-#define __PRINTER_H__
+#ifndef __STUDENT_H__
+#define __STUDENT_H__
 
 _Monitor Printer;
 _Task NameServer;

@@ -30,13 +30,6 @@ void BottlingPlant::getShipment( unsigned int cargo[ ] ) {
     } // for
 }
 
-bool BottlingPlant::hasProduction() {
-    for ( unsigned int i = 0; i < 4; i++ ) {
-        if ( 0 < production[i] ) return false;
-    } // for
-    return true;
-}
-
 void BottlingPlant::main() {
     Truck truck( printer, nameServer, *this, numVendingMachines, maxStockPerFlavour );
 
