@@ -2,6 +2,7 @@
 #define __PARENT_H__
 
 _Cormonitor Printer;
+_Monitor Bank;
 
 _Task Parent {
     Printer& printer;

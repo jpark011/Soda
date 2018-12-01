@@ -1,5 +1,6 @@
 #include "parent.h"
 #include "printer.h"
+#include "bank.h"
 #include "MPRNG.h"
 
 using namespace std;
@@ -16,6 +17,7 @@ Parent::~Parent() {
 }
 
 void Parent::main() {
+    printer.print( Printer::Parent, 'S' );
     while (true) {
         _Accept( ~Parent ) {
             break;
@@ -26,6 +28,8 @@ void Parent::main() {
             yield( parentalDelay );
 
             bank.deposit( student, money );
+            printer.print( Printer::Parent, 'D', student, money );
         } // _Accept
     } // while
+    printer.print( Printer::Parent, 'F' );
 }
