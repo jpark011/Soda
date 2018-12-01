@@ -4,6 +4,7 @@ using namespace std;					// direct access to std
 #include <cstdlib>					// exit
 #include "config.h"
 #include "printer.h"
+#include "bank.h"
 
 // global definition
 MPRNG mprng;
@@ -46,6 +47,9 @@ int main( int argc, char * argv[] ) {
     processConfigFile( configFile.c_str(), config );
 
     Printer printer( config.numStudents, config.numVendingMachines, config.numCouriers );
+    Bank bank( config.numStudents );
+
+
 
     if ( infile != &cin ) delete infile;		// close file, do not delete cin!
     if ( outfile != &cout ) delete outfile;		// close file, do not delete cout!
