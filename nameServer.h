@@ -9,9 +9,10 @@ _Task NameServer {
     Printer & printer; 
     unsigned int numVendingMachines; 
     unsigned int numStudents;
-    vector<VendingMachine*> vms;
-    vector<unsigned int> stdVms;
-
+    std::vector<VendingMachine*> vms;
+    std::vector<unsigned int> stdVms;
+    unsigned int lastStdId;
+    
     void main();
 public:
     NameServer( Printer & prt, unsigned int numVendingMachines, unsigned int numStudents );

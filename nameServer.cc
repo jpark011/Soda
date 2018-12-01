@@ -15,11 +15,12 @@ NameServer::~NameServer() {
 }
 
 void NameServer::VMregister( VendingMachine *vendingmachine ) {
-    vms.push_back(vendingMachine);
+    vms.push_back( vendingmachine );
 }
 
 VendingMachine* NameServer::getMachine( unsigned int id ) {
     VendingMachine* vm = vms[ stdVms[id] ];
+    lastStdId = id;
     return vm; 
 }
 
@@ -28,14 +29,18 @@ VendingMachine** NameServer::getMachineList() {
 }
 
 void NameServer::main() {
+    printer.print( Printer::NameServer, 'S' );
     while (true) {
         _Accept( ~NameServer ) {
             break;
         } or _When( vms.size() < numVendingMachines ) _Accept( VMregister ) {
+            printer.print( Printer::NameServer, 'R', vms.size()-1 );
         } or _Accept( getMachine ) {
-            stdVms[id]++;
-            stdVms[id] %= numVendingMachines;
+            printer.print( Printer::NameServer, 'N', lastStdId, stdVms[lastStdId] );
+            stdVms[lastStdId]++;
+            stdVms[lastStdId] %= numVendingMachines;
         } or _Accept( getMachineList ) {
         } // _Accept
     } // while
+    printer.print( Printer::NameServer, 'F' );
 }
