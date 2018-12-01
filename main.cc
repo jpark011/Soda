@@ -5,6 +5,7 @@ using namespace std;					// direct access to std
 #include "config.h"
 #include "printer.h"
 #include "bank.h"
+#include "parent.h"
 
 // global definition
 MPRNG mprng;
@@ -16,9 +17,6 @@ void usage( char * argv[] ) {
 } // usage
 
 int main( int argc, char * argv[] ) {
-    istream * infile = &cin;				// default value
-    ostream * outfile = &cout;
-
     string configFile = "soda.config";
     int seed = getpid(),
         processors = 1;
@@ -48,9 +46,5 @@ int main( int argc, char * argv[] ) {
 
     Printer printer( config.numStudents, config.numVendingMachines, config.numCouriers );
     Bank bank( config.numStudents );
-
-
-
-    if ( infile != &cin ) delete infile;		// close file, do not delete cin!
-    if ( outfile != &cout ) delete outfile;		// close file, do not delete cout!
+    Parent parent( printer, bank, config.numStudents, config.parentalDelay );
 } // main
