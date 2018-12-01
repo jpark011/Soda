@@ -7,7 +7,7 @@ using namespace std;					// direct access to std
 #include "bank.h"
 #include "parent.h"
 #include "groupoff.h"
-
+#include "watcardOffice.h"
 // global definition
 MPRNG mprng;
 
@@ -49,5 +49,5 @@ int main( int argc, char * argv[] ) {
     Bank bank( config.numStudents );
     Parent parent( printer, bank, config.numStudents, config.parentalDelay );
     Groupoff groupoff( printer, config.numStudents, config.sodaCost, config.groupoffDelay );
-    
+    WATCardOffice office( printer, bank, config.numCouriers );
 } // main

@@ -25,18 +25,20 @@ _Task WATCardOffice {
         Printer& printer;
         WATCardOffice& watcardOffice;
         Bank& bank;
+        unsigned int id;
 
         void main();
     public:
-        Courier( Printer& printer, WATCardOffice& watcardOffice, Bank& bank );
+        Courier( Printer& printer, WATCardOffice& watcardOffice, Bank& bank, unsigned int id );
         ~Courier();
     }; // communicates with bank
+    friend _Task Courier;
 
     Printer& printer;
     Bank & bank;
     unsigned int numCouriers;
-    vector<Courier*> couriers;
-    queue<Job*> jobs;
+    std::vector<Courier*> couriers;
+    std::queue<Job*> jobs;
     void main();
 public:
     _Event Lost {}; // lost WATCard
