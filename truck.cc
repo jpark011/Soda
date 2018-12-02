@@ -2,6 +2,7 @@
 #include "printer.h"
 #include "nameServer.h"
 #include "bottlingPlant.h"
+#include "vendingMachine.h"
 #include "MPRNG.h"
 
 using namespace std;
@@ -23,6 +24,8 @@ bool Truck::isEmpty( unsigned int cargo[] ) {
 }
 
 void Truck::main() {
+    printer.print(Printer::Truck, 'S');
+
     unsigned int cargo[4] = { 0, 0, 0, 0 };
     VendingMachine** vms = nameServer.getMachineList();
     unsigned int lastVm = numVendingMachines - 1;
@@ -32,24 +35,45 @@ void Truck::main() {
             yield( mprng( 1, 10 ) );
             plant.getShipment( cargo );
 
-            for ( unsigned int i = 0; i < numVendingMachines; i++  ) {
-                lastVm++;
-                lastVm %= numVendingMachines;
-                unsigned int* inv = vms[lastVm]->inventory();
-                for ( unsigned int i = 0; i < 4; i++ ) {
-                    unsigned int restock = maxStockPerFlavour - inv[i];
-                    if ( restock <= cargo[i] ) {
-                        cargo[i] -= restock;
-                        inv[i] += restock;
-                    } // if
-                } // for
-                
+            unsigned int totalProduced = 0;
+            for ( unsigned int i = 0; i < 4; i++ ) {
+                totalProduced += cargo[i];
+            }
+
+            printer.print(Printer::Truck, 'P', totalProduced);
+
+            for ( unsigned int i = 0; i < numVendingMachines; i++  ) {         
                 if ( isEmpty( cargo ) ) {
                     break;
                 } // if
+
+                lastVm++;
+                lastVm %= numVendingMachines;
+                unsigned int* inv = vms[lastVm]->inventory();
+
+                printer.print(Printer::Truck, 'd', lastVm, totalProduced); 
+
+                unsigned int notFilled = 0;
+                for ( unsigned int i = 0; i < 4; i++ ) {
+                    unsigned int restock = min(maxStockPerFlavour - inv[i], cargo[i]);
+                    cargo[i] -= restock;
+                    totalProduced -= restock;
+                    inv[i] += restock;
+                    notFilled += (maxStockPerFlavour - inv[i]);
+                } // for
+
+                vms[lastVm]->restocked();
+
+                if ( notFilled > 0 ) {
+                    printer.print(Printer::Truck, 'U', lastVm, notFilled);
+                } // if
+
+                printer.print(Printer::Truck, 'D', lastVm, totalProduced);
             } // for
         } catch( BottlingPlant::Shutdown& ) {
             break;
         } // try
     } // while
+
+    printer.print(Printer::Truck, 'F');
 }
