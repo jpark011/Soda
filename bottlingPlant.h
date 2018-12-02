@@ -9,7 +9,7 @@ _Task BottlingPlant {
     NameServer& nameServer;
     unsigned int numVendingMachines;
     unsigned int maxShippedPerFlavour;
-    unsigned int maxStockPerFlavour
+    unsigned int maxStockPerFlavour;
     unsigned int timeBetweenShipments;
     unsigned int production[4];
     bool timeToShut;
