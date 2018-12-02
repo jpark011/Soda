@@ -1,7 +1,7 @@
 #ifndef __BOTTLING_PLANT_H__
 #define __BOTTLING_PLANT_H__
 
-_Monitor Printer;
+_Cormonitor Printer;
 _Task NameServer;
 
 _Task BottlingPlant {
@@ -9,12 +9,11 @@ _Task BottlingPlant {
     NameServer& nameServer;
     unsigned int numVendingMachines;
     unsigned int maxShippedPerFlavour;
-    unsigned int maxStockPerFlavour
+    unsigned int maxStockPerFlavour;
     unsigned int timeBetweenShipments;
     unsigned int production[4];
     bool timeToShut;
 
-    bool hasProduction();
     void main();
 public:
     _Event Shutdown {}; // shutdown plant

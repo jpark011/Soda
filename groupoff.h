@@ -4,7 +4,7 @@
 #include <uFuture.h>
 #include "watcard.h"
 
-_Monitor Printer;
+_Cormonitor Printer;
 
 _Task Groupoff {
     Printer& printer;

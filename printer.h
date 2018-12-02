@@ -3,14 +3,8 @@
 #include <sstream>
 #include <vector>
 
-_Monitor Printer {    // chose one of the two kinds of type constructor
-    unsigned int numStudents; 
-    unsigned int numVendingMachines; 
-    unsigned int numCouriers; 
-    std::vector<std::ostringstream> buffers;
-
-    void printLn();
-  public:
+_Cormonitor Printer {    // chose one of the two kinds of type constructor
+public:
     enum Kind { 
         Parent,
         Groupoff,
@@ -22,6 +16,22 @@ _Monitor Printer {    // chose one of the two kinds of type constructor
         Vending,
         Courier
      };
+private:
+    static const unsigned int NUM_KINDS = 6;
+    unsigned int numStudents; 
+    unsigned int numVendingMachines; 
+    unsigned int numCouriers; 
+    std::vector<std::ostringstream> buffers;
+
+    Kind kind;
+    char state;
+    int value1;
+    int value2;
+    unsigned int lid;
+
+    void printLn();
+    void main();
+  public:
     Printer( unsigned int numStudents, unsigned int numVendingMachines, unsigned int numCouriers );
     ~Printer();
     void print( Kind kind, char state );

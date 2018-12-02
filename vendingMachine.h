@@ -2,7 +2,7 @@
 #define __VENDING_MACHINE_H__
 #include <map>
 
-_Monitor Printer;
+_Cormonitor Printer;
 _Task NameServer;
 
 _Task VendingMachine {
