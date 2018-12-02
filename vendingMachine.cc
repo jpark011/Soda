@@ -54,7 +54,7 @@ _Nomutex unsigned int VendingMachine::getId() {
 
 void VendingMachine::main() {
     printer.print( Printer::Vending, id, 'S' );
-    while (true) {
+    while (true) { 
         try {
             _Accept ( ~VendingMachine ) {
                 break;
@@ -69,7 +69,7 @@ void VendingMachine::main() {
                 _Accept( restocked ); // _Accept
                 printer.print( Printer::Vending, id, 'R' );
             } // _Accept
-        } catch ( uMutexFailure::RendezvousFailure ) {
+        } catch ( uMutexFailure::RendezvousFailure& ) {
         } // try
     } // while
     printer.print( Printer::Vending, id, 'F' );

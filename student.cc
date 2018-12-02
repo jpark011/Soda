@@ -18,41 +18,54 @@ Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOf
 }
 
 void Student::main() {
-    const unsigned int NUM_FLAVORS = 4;
+    const unsigned int NUM_FLAVORS = VendingMachine::NUM_FLAVOURS;
     const unsigned int INIT_BALANCE = 5;
 
     unsigned int numPurchases = mprng(1, maxPurchases);
     unsigned int favSoda = mprng( NUM_FLAVORS - 1 ); 
 
     WATCard::FWATCard watcard = watcardOffice.create( id, INIT_BALANCE );
-    WATCard::FWATCard giftcard = groupoff.giftcard();
+    WATCard::FWATCard giftcard = groupoff.giftCard();
+
+    printer.print( Printer::Student, id, 'S' );
 
     VendingMachine* vm = nameServer.getMachine( id );;
+    printer.print( Printer::Student, id, 'V', vm->getId() );
 
     for ( unsigned int i = 0; i < numPurchases; i++ ) {
         yield( mprng(1, 10) );      // wait before buy
         while (true) {
             try {
                 _Select( watcard ) {
-                    vm->buy( (VendingMachine::Flavours) favSoda, *watcard );
+                    try {
+                        vm->buy( (VendingMachine::Flavours) favSoda, *watcard );
+                        printer.print( Printer::Student, id, 'B', favSoda, watcard()->getBalance() );
+                    } catch ( VendingMachine::Free& ) {
+                        printer.print( Printer::Student, id, 'A', favSoda, watcard()->getBalance() );
+                        yield( 4 );
+                    } // try
                 } or _Select( giftcard ) {
-                    vm->buy( (VendingMachine::Flavours) favSoda, *giftcard );
-                    giftcard.reset();
-                }
+                    try {
+                        vm->buy( (VendingMachine::Flavours) favSoda, *giftcard );
+                        giftcard.reset();
+                        printer.print( Printer::Student, id, 'G', favSoda, giftcard()->getBalance() );
+                    } catch ( VendingMachine::Free& ) {
+                        printer.print( Printer::Student, id, 'a', favSoda, giftcard()->getBalance() );
+                        yield( 4 );
+                    } // try
+                } // _Select
                 // bought a soda!
                 break;
-            } catch ( VendingMachine::Free& ) {
-                yield(4);
-                // free soda!
-                break;                    
             } catch ( VendingMachine::Funds& ) {
-                unsigned int fundToAdd = INIT_BALANCE + vendings[j]->cost();
-                watcardOffice.transfer( id, fundToAdd , &watcard );
+                unsigned int fundToAdd = INIT_BALANCE + vm->cost();
+                watcardOffice.transfer( id, fundToAdd , watcard() );
             } catch ( VendingMachine::Stock& ) {
                 vm = nameServer.getMachine( id );;
             } catch ( WATCardOffice::Lost& ) {
+                printer.print( Printer::Student, id, 'L' );
                 watcard = watcardOffice.create( id, INIT_BALANCE );
             }// try
         } // while
     } // for
+    printer.print( Printer::Student, id, 'F' );
 }

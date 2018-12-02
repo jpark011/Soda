@@ -59,14 +59,14 @@ int main( int argc, char * argv[] ) {
     for ( unsigned int i = 0; i < config.numVendingMachines; i++ ) {
         vms[i] = new VendingMachine( printer, ns, i, config.sodaCost );
     } // for
-    // Student* students[ config.numStudents ];
-    // for ( unsigned int i = 0; i < config.numStudents; i++ ) {
-    //     students[i] = new Student( printer, ns, office, groupoff, i, config.maxPurchases );
-    // } // for
+    Student* students[ config.numStudents ];
+    for ( unsigned int i = 0; i < config.numStudents; i++ ) {
+        students[i] = new Student( printer, ns, office, groupoff, i, config.maxPurchases );
+    } // for
 
-    // for ( unsigned int i = 0; i < config.numStudents; i++ ) {
-    //     delete students[i];
-    // } // for
+    for ( unsigned int i = 0; i < config.numStudents; i++ ) {
+        delete students[i];
+    } // for
     for ( unsigned int i = 0; i < config.numVendingMachines; i++ ) {
         delete vms[i];
     } // for
