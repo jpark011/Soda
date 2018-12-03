@@ -47,8 +47,8 @@ void Student::main() {
                 } or _Select( giftcard ) {
                     try {
                         vm->buy( (VendingMachine::Flavours) favSoda, *giftcard );
-                        giftcard.reset();
                         printer.print( Printer::Student, id, 'G', favSoda, giftcard()->getBalance() );
+                        giftcard.reset();
                     } catch ( VendingMachine::Free& ) {
                         printer.print( Printer::Student, id, 'a', favSoda, giftcard()->getBalance() );
                         yield( 4 );
@@ -67,5 +67,7 @@ void Student::main() {
             }// try
         } // while
     } // for
+    delete watcard();
+    delete giftcard();
     printer.print( Printer::Student, id, 'F' );
 }

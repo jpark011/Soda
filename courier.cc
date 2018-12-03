@@ -37,12 +37,14 @@ void WATCardOffice::Courier::main() {
             bank.withdraw( stdId, fund );
             watcard->deposit( fund );
             if ( mprng( 5 ) == 0 ) {    // lost
+                delete watcard;
                 job->result.exception( new Lost );
                 printer.print( Printer::Courier, id, 'L', stdId );
             } else {        // deposit success
                 job->result.delivery( watcard );
                 printer.print( Printer::Courier, id, 'T', stdId, fund );
             } // if
+            delete job;     // job done
         } // _Accept
     } // while
     printer.print( Printer::Courier, id, 'F' );

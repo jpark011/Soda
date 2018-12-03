@@ -20,7 +20,6 @@ VendingMachine::~VendingMachine() {
 }
 
 void VendingMachine::buy( VendingMachine::Flavours flavour, WATCard & card ) {
-    uRendezvousAcceptor();
     if ( card.getBalance() < cost() ) {
         _Throw Funds();
     } // if
@@ -28,14 +27,13 @@ void VendingMachine::buy( VendingMachine::Flavours flavour, WATCard & card ) {
     if ( inventories[flavour] <= 0 ) {
         _Throw Stock();
     } // if
-
+    lastFlavour = flavour;
     didBuy = true;
     if ( mprng(4) == 0 ) {
         _Throw Free();
     } // if
 
     card.withdraw( cost() );
-    lastFlavour = flavour;
 }
 
 unsigned int* VendingMachine::inventory() {
@@ -56,19 +54,22 @@ _Nomutex unsigned int VendingMachine::getId() {
 void VendingMachine::main() {
     printer.print( Printer::Vending, id, 'S' );
     while (true) { 
-        _Accept ( ~VendingMachine ) {
-            break;
-        } or _Accept( buy ) {
-            if ( didBuy ) {
-                inventories[lastFlavour]--;
-                printer.print( Printer::Vending, id, 'B', lastFlavour, inventories[lastFlavour] );
-            } // if
-            didBuy = false;
-        } or _Accept( inventory ) {
-            printer.print( Printer::Vending, id, 'r' );
-            _Accept( restocked ); // _Accept
-            printer.print( Printer::Vending, id, 'R' );
-        } // _Accept
+        try {
+            _Accept ( ~VendingMachine ) {
+                break;
+            } or _Accept( buy ) {
+                if ( didBuy ) {
+                    inventories[lastFlavour]--;
+                    printer.print( Printer::Vending, id, 'B', lastFlavour, inventories[lastFlavour] );
+                } // if
+                didBuy = false;
+            } or _Accept( inventory ) {
+                printer.print( Printer::Vending, id, 'r' );
+                _Accept( restocked ); // _Accept
+                printer.print( Printer::Vending, id, 'R' );
+            } // _Accept
+        } catch ( uMutexFailure::RendezvousFailure ) {
+        } // try
     } // while
     printer.print( Printer::Vending, id, 'F' );
 }
