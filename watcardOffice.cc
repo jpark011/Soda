@@ -41,6 +41,9 @@ WATCard::FWATCard WATCardOffice::transfer( unsigned int sid, unsigned int amount
 }
 
 WATCardOffice::Job* WATCardOffice::requestWork() {
+    if ( jobs.empty() ) {   // final work
+        return nullptr;
+    } // if
     return jobs.front();
 }
 
@@ -48,6 +51,7 @@ void WATCardOffice::main() {
     printer.print( Printer::WATCardOffice, 'S' );
     while (true) {
         _Accept( ~WATCardOffice ) {
+            _Accept( requestWork );     // final work
             break;
         } or _Accept( create ) {
             Args args = jobs.front()->args; 

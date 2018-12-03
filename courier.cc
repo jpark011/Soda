@@ -21,11 +21,14 @@ void WATCardOffice::Courier::main() {
         _Accept( ~Courier ) {
             break;
         } _Else {
-            WATCardOffice::Job& job = *watcardOffice.requestWork();
-            unsigned int stdId = job.args.stdId;
-            unsigned int fund = job.args.fund;
-            WATCard* watcard = job.args.watcard;
-
+            WATCardOffice::Job* job = watcardOffice.requestWork();
+            if ( job == nullptr ) {     // office closed
+                break;
+            } // if
+            unsigned int stdId = job->args.stdId;
+            unsigned int fund = job->args.fund;
+            WATCard* watcard = job->args.watcard;
+            
             if ( watcard == nullptr ) {
                 watcard = new WATCard();
             } // if
@@ -34,10 +37,10 @@ void WATCardOffice::Courier::main() {
             bank.withdraw( stdId, fund );
             watcard->deposit( fund );
             if ( mprng( 5 ) == 0 ) {    // lost
-                job.result.exception( new Lost );
+                job->result.exception( new Lost );
                 printer.print( Printer::Courier, id, 'L', stdId );
             } else {        // deposit success
-                job.result.delivery( watcard );
+                job->result.delivery( watcard );
                 printer.print( Printer::Courier, id, 'T', stdId, fund );
             } // if
         } // _Accept

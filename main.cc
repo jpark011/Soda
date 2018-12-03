@@ -60,12 +60,11 @@ int main( int argc, char * argv[] ) {
         vms[i] = new VendingMachine( printer, ns, i, config.sodaCost );
     } // for
  {
-    BottlingPlant plant( printer, ns, config.numVendingMachines, config.maxShippedPerFlavour, config.maxStockPerFlavour, config.timeBetweenShipments );
     Student* students[ config.numStudents ];
+    BottlingPlant plant( printer, ns, config.numVendingMachines, config.maxShippedPerFlavour, config.maxStockPerFlavour, config.timeBetweenShipments );
     for ( unsigned int i = 0; i < config.numStudents; i++ ) {
         students[i] = new Student( printer, ns, office, groupoff, i, config.maxPurchases );
     } // for
-
     for ( unsigned int i = 0; i < config.numStudents; i++ ) {
         delete students[i];
     } // for
