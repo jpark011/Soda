@@ -40,7 +40,7 @@ void Truck::main() {
                 totalProduced += cargo[i];
             }
 
-            printer.print(Printer::Truck, 'P', totalProduced);
+            printer.print( Printer::Truck, 'P', totalProduced );
 
             for ( unsigned int i = 0; i < numVendingMachines; i++  ) {         
                 if ( isEmpty( cargo ) ) {
@@ -49,9 +49,11 @@ void Truck::main() {
 
                 lastVm++;
                 lastVm %= numVendingMachines;
-                unsigned int* inv = vms[lastVm]->inventory();
+                VendingMachine* vm = vms[lastVm];
+                unsigned int* inv = vm->inventory();
+                unsigned int vmId = vm->getId();
 
-                printer.print(Printer::Truck, 'd', lastVm, totalProduced); 
+                printer.print( Printer::Truck, 'd', vmId, totalProduced ); 
 
                 unsigned int notFilled = 0;
                 for ( unsigned int i = 0; i < 4; i++ ) {
@@ -65,15 +67,13 @@ void Truck::main() {
                 vms[lastVm]->restocked();
 
                 if ( notFilled > 0 ) {
-                    printer.print(Printer::Truck, 'U', lastVm, notFilled);
+                    printer.print( Printer::Truck, 'U', vmId, notFilled );
                 } // if
-
-                printer.print(Printer::Truck, 'D', lastVm, totalProduced);
+                printer.print( Printer::Truck, 'D', vmId, totalProduced );
             } // for
         } catch( BottlingPlant::Shutdown& ) {
             break;
         } // try
     } // while
-
     printer.print(Printer::Truck, 'F');
 }
