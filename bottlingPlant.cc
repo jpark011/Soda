@@ -15,7 +15,6 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
             timeBetweenShipments(timeBetweenShipments), timeToShut(false) {}
 
 BottlingPlant::~BottlingPlant() {
-
 }
 
 void BottlingPlant::getShipment( unsigned int cargo[ ] ) {
@@ -27,8 +26,6 @@ void BottlingPlant::getShipment( unsigned int cargo[ ] ) {
     for ( unsigned int i = 0; i < 4; i++ ) {
         cargo[i] = production[i];
     } // for
-
-    printer.print(Printer::BottlingPlant, 'P');
 }
 
 void BottlingPlant::main() {
@@ -47,15 +44,13 @@ void BottlingPlant::main() {
 
         _Accept( ~BottlingPlant ) {
             timeToShut = true;
+            _Accept( getShipment );     // final shipment
             break;
         } or _Accept( getShipment ) {
             fill(begin(production), end(production), 0);
+            printer.print(Printer::BottlingPlant, 'P');
         } // _Accept
     } // while
-
-    try {
-        _Accept( getShipment ); // final shipment call
-    } catch ( uMutexFailure::RendezvousFailure ) {}
 
     printer.print(Printer::BottlingPlant, 'F');
 }

@@ -59,7 +59,8 @@ int main( int argc, char * argv[] ) {
     for ( unsigned int i = 0; i < config.numVendingMachines; i++ ) {
         vms[i] = new VendingMachine( printer, ns, i, config.sodaCost );
     } // for
-    // BottlingPlant plant( printer, ns, config.numVendingMachines, config.maxShippedPerFlavour, config.maxStockPerFlavour, config.timeBetweenShipments );
+ {
+    BottlingPlant plant( printer, ns, config.numVendingMachines, config.maxShippedPerFlavour, config.maxStockPerFlavour, config.timeBetweenShipments );
     Student* students[ config.numStudents ];
     for ( unsigned int i = 0; i < config.numStudents; i++ ) {
         students[i] = new Student( printer, ns, office, groupoff, i, config.maxPurchases );
@@ -68,7 +69,7 @@ int main( int argc, char * argv[] ) {
     for ( unsigned int i = 0; i < config.numStudents; i++ ) {
         delete students[i];
     } // for
-    // plant.~BottlingPlant();
+}
     for ( unsigned int i = 0; i < config.numVendingMachines; i++ ) {
         delete vms[i];
     } // for
