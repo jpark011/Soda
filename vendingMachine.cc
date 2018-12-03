@@ -20,6 +20,7 @@ VendingMachine::~VendingMachine() {
 }
 
 void VendingMachine::buy( VendingMachine::Flavours flavour, WATCard & card ) {
+    uRendezvousAcceptor();
     if ( card.getBalance() < cost() ) {
         _Throw Funds();
     } // if
@@ -55,22 +56,19 @@ _Nomutex unsigned int VendingMachine::getId() {
 void VendingMachine::main() {
     printer.print( Printer::Vending, id, 'S' );
     while (true) { 
-        try {
-            _Accept ( ~VendingMachine ) {
-                break;
-            } or _Accept( buy ) {
-                if ( didBuy ) {
-                    inventories[lastFlavour]--;
-                    printer.print( Printer::Vending, id, 'B', lastFlavour, inventories[lastFlavour] );
-                } // if
-                didBuy = false;
-            } or _Accept( inventory ) {
-                printer.print( Printer::Vending, id, 'r' );
-                _Accept( restocked ); // _Accept
-                printer.print( Printer::Vending, id, 'R' );
-            } // _Accept
-        } catch ( uMutexFailure::RendezvousFailure& ) {
-        } // try
+        _Accept ( ~VendingMachine ) {
+            break;
+        } or _Accept( buy ) {
+            if ( didBuy ) {
+                inventories[lastFlavour]--;
+                printer.print( Printer::Vending, id, 'B', lastFlavour, inventories[lastFlavour] );
+            } // if
+            didBuy = false;
+        } or _Accept( inventory ) {
+            printer.print( Printer::Vending, id, 'r' );
+            _Accept( restocked ); // _Accept
+            printer.print( Printer::Vending, id, 'R' );
+        } // _Accept
     } // while
     printer.print( Printer::Vending, id, 'F' );
 }
