@@ -36,21 +36,21 @@ void Student::main() {
         yield( mprng(1, 10) );      // wait before buy
         while (true) {
             try {
-                _Select( watcard ) {
-                    try {
-                        vm->buy( (VendingMachine::Flavours) favSoda, *watcard );
-                        printer.print( Printer::Student, id, 'B', favSoda, watcard()->getBalance() );
-                    } catch ( VendingMachine::Free& ) {
-                        printer.print( Printer::Student, id, 'A', favSoda, watcard()->getBalance() );
-                        yield( 4 );
-                    } // try
-                } or _Select( giftcard ) {
+                _Select( giftcard ) {
                     try {
                         vm->buy( (VendingMachine::Flavours) favSoda, *giftcard );
                         printer.print( Printer::Student, id, 'G', favSoda, giftcard()->getBalance() );
                         giftcard.reset();
                     } catch ( VendingMachine::Free& ) {
                         printer.print( Printer::Student, id, 'a', favSoda, giftcard()->getBalance() );
+                        yield( 4 );
+                    } // try
+                } or _Select( watcard ) {
+                    try {
+                        vm->buy( (VendingMachine::Flavours) favSoda, *watcard );
+                        printer.print( Printer::Student, id, 'B', favSoda, watcard()->getBalance() );
+                    } catch ( VendingMachine::Free& ) {
+                        printer.print( Printer::Student, id, 'A', favSoda, watcard()->getBalance() );
                         yield( 4 );
                     } // try
                 } // _Select
