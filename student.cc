@@ -67,7 +67,5 @@ void Student::main() {
             }// try
         } // while
     } // for
-    delete watcard();
-    delete giftcard();
     printer.print( Printer::Student, id, 'F' );
 }
