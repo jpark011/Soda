@@ -7,6 +7,21 @@ using namespace std;
 
 extern MPRNG mprng;
 
+/*********** Parent ***********
+    * Purpose: A task that puts money to students
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       prt         - printer
+    *       bank - bank
+    *       numStudents - number of students
+    *       parentDelay - delay between money sent
+    * 
+    * Errors: No errors
+    * 
+    * Globals: N/A
+***************************************/
 Parent::Parent( Printer & prt, Bank & bank, unsigned int numStudents, unsigned int parentalDelay )
         : printer(prt), bank(bank), numStudents(numStudents), parentalDelay(parentalDelay) {
 

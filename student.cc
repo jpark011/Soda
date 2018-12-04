@@ -11,6 +11,23 @@ using namespace std;
 
 extern MPRNG mprng;
 
+/*********** Student ***********
+    * Purpose: A task that purchases drinks from VendingMachines
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       prt         - printer
+    *       nameServer - name server
+    *       cardOffice - WATCard office
+    *       groupoff   - giftcard office
+    *       id          - student id
+    *       maxPurchases - max purchases of drinks 
+    * 
+    * Errors: No errors
+    * 
+    * Globals: N/A
+***************************************/
 Student::Student( Printer & prt, NameServer & nameServer, WATCardOffice & cardOffice, 
         Groupoff & groupoff, unsigned int id, unsigned int maxPurchases )
     : printer(prt), nameServer(nameServer), watcardOffice(cardOffice), groupoff(groupoff), id(id), maxPurchases(maxPurchases) {

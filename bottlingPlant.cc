@@ -8,6 +8,24 @@ extern MPRNG mprng;
 
 using namespace std;
 
+/*********** BottlingPlant ***********
+    * Purpose: A administrator that produces drinks
+    *           and let the truck deliver
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       prt         - printer
+    *       nameServer - name server
+    *       numVendingMachine - number of vending machines
+    *       maxShippedPerFlavour - max number of drinks
+    *       maxStockPerFlavour  - max stock of drinks
+    *       timeBetweenShipments - time between shipments
+    * 
+    * Errors: No errors
+    * 
+    * Globals: N/A
+***************************************/
 BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned int numVendingMachines,
         unsigned int maxShippedPerFlavour, unsigned int maxStockPerFlavour, unsigned int timeBetweenShipments ) 
             : printer(prt), nameServer(nameServer), numVendingMachines(numVendingMachines),
@@ -17,6 +35,19 @@ BottlingPlant::BottlingPlant( Printer & prt, NameServer & nameServer, unsigned i
 BottlingPlant::~BottlingPlant() {
 }
 
+/*********** getShipment ***********
+    * Purpose: move drinks from plant to cargo
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       cargo - cargo
+    * 
+    * Errors: 
+    *       Shutdown - when BottlingPlant is shutting down
+    * 
+    * Globals: N/A
+***************************************/
 void BottlingPlant::getShipment( unsigned int cargo[ ] ) {
     if ( timeToShut ) {
         uRendezvousAcceptor();

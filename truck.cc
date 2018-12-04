@@ -9,6 +9,22 @@ using namespace std;
 
 extern MPRNG mprng;
 
+/*********** Truck ***********
+    * Purpose: A courier that delivers drinks from plant to vms
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       prt         - printer
+    *       nameServer - name server
+    *       plant - bottling plant
+    *       numVendingMachine - number of vending machines
+    *       maxStockPerFlavour  - max stock of drinks
+    * 
+    * Errors: No errors
+    * 
+    * Globals: N/A
+***************************************/
 Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
     unsigned int numVendingMachines, unsigned int maxStockPerFlavour )
         : printer(prt), nameServer(nameServer), plant(plant),
@@ -16,6 +32,19 @@ Truck::Truck( Printer & prt, NameServer & nameServer, BottlingPlant & plant,
     
 }
 
+/*********** isEmpty ***********
+    * Purpose: if all cargo is empty
+    * 
+    * Returns:
+    *       bool - T/F
+    * 
+    * Parameters:
+    *       cargo - cargo
+    * 
+    * Errors: N/A 
+    * 
+    * Globals: N/A
+***************************************/
 bool Truck::isEmpty( unsigned int cargo[] ) {
     for ( unsigned int i = 0; i < 4; i++ ) {
         if ( 0 < cargo[i] ) return false;

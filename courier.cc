@@ -7,6 +7,21 @@ using namespace std;
 
 extern MPRNG mprng; 
 
+/*********** Courier ***********
+    * Purpose: courier that delivers WATCard
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       prt         - printer
+    *       watcardOffice - WATCard office
+    *       bank - bank
+    *       id - courier id
+    * 
+    * Errors: No errors
+    * 
+    * Globals: N/A
+***************************************/
 WATCardOffice::Courier::Courier( Printer& printer, WATCardOffice& watcardOffice, Bank& bank, unsigned int id )
         : printer(printer), watcardOffice(watcardOffice), bank(bank), id(id) {
 }

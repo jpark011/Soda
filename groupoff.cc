@@ -3,6 +3,20 @@
 
 using namespace std;
 
+/*********** Groupoff ***********
+    * Purpose: An office distributes giftcards to students
+    * 
+    * Returns: void
+    * 
+    * Parameters:
+    *       prt         - printer
+    *       numStudents - number of students
+    *       sodaCost - cost of drinks
+    *       groupoffDelay - delay for giftcard distribution
+    * Errors: No errors
+    * 
+    * Globals: N/A
+***************************************/
 Groupoff::Groupoff( Printer & prt, unsigned int numStudents, unsigned int sodaCost, unsigned int groupoffDelay ) 
         : printer(prt), numStudents(numStudents), sodaCost(sodaCost), groupoffDelay(groupoffDelay), numGiftcards(0) {
 }
@@ -15,6 +29,18 @@ Groupoff::~Groupoff() {
     } // while
 }
 
+/*********** giftCard ***********
+    * Purpose: get giftcard (As Future)
+    * 
+    * Returns:
+    *       FWATCard - Future for WATCard
+    * 
+    * Parameters:
+    * 
+    * Errors: N/A 
+    * 
+    * Globals: N/A
+***************************************/
 WATCard::FWATCard Groupoff::giftCard() {
     WATCard::FWATCard giftcard; 
     giftcards.push( giftcard );
