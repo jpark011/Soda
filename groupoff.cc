@@ -22,10 +22,16 @@ Groupoff::Groupoff( Printer & prt, unsigned int numStudents, unsigned int sodaCo
 }
 
 Groupoff::~Groupoff() {
-    while ( !giftcards.empty() ) {
-        WATCard::FWATCard giftcard = giftcards.front();
-        giftcards.pop();
+    while ( !fGiftcards.empty() ) {
+        WATCard::FWATCard giftcard = fGiftcards.front();
+        fGiftcards.pop();
         giftcard.cancel();
+    } // while
+
+    while ( !giftcards.empty() ) {
+        WATCard* giftcard = giftcards.front();
+        giftcards.pop();
+        delete giftcard;
     } // while
 }
 
@@ -43,7 +49,7 @@ Groupoff::~Groupoff() {
 ***************************************/
 WATCard::FWATCard Groupoff::giftCard() {
     WATCard::FWATCard giftcard; 
-    giftcards.push( giftcard );
+    fGiftcards.push( giftcard );
     return giftcard;
 }
 
@@ -56,11 +62,13 @@ void Groupoff::main() {
             numGiftcards++;
         } _Else {
             yield( groupoffDelay );
-            if ( !giftcards.empty() ) {
-                WATCard::FWATCard fGiftcard = giftcards.front();
-                giftcards.pop();
+            if ( !fGiftcards.empty() ) {
+                WATCard::FWATCard fGiftcard = fGiftcards.front();
+                fGiftcards.pop();
 
                 WATCard* giftcard = new WATCard();
+                giftcards.push( giftcard );
+
                 giftcard->deposit( sodaCost );
                 fGiftcard.delivery( giftcard );
                 printer.print( Printer::Groupoff, 'D', sodaCost );

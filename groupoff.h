@@ -12,8 +12,8 @@ _Task Groupoff {
     unsigned int sodaCost;
     unsigned int groupoffDelay;
     unsigned int numGiftcards;
-    std::queue<WATCard::FWATCard> giftcards;
-    
+    std::queue<WATCard::FWATCard> fGiftcards;
+    std::queue<WATCard*> giftcards;    
     void main();
 public:
     Groupoff( Printer & prt, unsigned int numStudents, 
