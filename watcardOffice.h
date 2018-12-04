@@ -19,16 +19,6 @@ _Task WATCardOffice {
         Args args; // call arguments (YOU DEFINE “Args”)
         WATCard::FWATCard result; // return future
         Job( Args args ) : args( args ) {}
-        ~Job() {
-            // try {
-            //     result.cancel();
-            //     if ( result.available() ) {
-            //         delete result;
-            //     } // if
-            // } catch ( WATCardOffice::Lost& ) {  
-            //     delete result;
-            // } // try
-        }
     };
 
     _Task Courier {

@@ -54,6 +54,7 @@ void WATCardOffice::Courier::main() {
             if ( mprng( 5 ) == 0 ) {    // lost
                 job->result.exception( new Lost );
                 printer.print( Printer::Courier, id, 'L', stdId );
+                delete watcard;
             } else {        // deposit success
                 job->result.delivery( watcard );
                 printer.print( Printer::Courier, id, 'T', stdId, fund );

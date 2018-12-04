@@ -6,7 +6,6 @@
 #include "watcard.h"
 #include "vendingMachine.h"
 #include "MPRNG.h"
-
 using namespace std;
 
 extern MPRNG mprng;
@@ -75,7 +74,7 @@ void Student::main() {
                 break;
             } catch ( VendingMachine::Funds& ) {
                 unsigned int fundToAdd = INIT_BALANCE + vm->cost();
-                watcardOffice.transfer( id, fundToAdd , watcard() );
+                watcard = watcardOffice.transfer( id, fundToAdd , watcard() );
             } catch ( VendingMachine::Stock& ) {
                 vm = nameServer.getMachine( id );;
             } catch ( WATCardOffice::Lost& ) {
@@ -84,5 +83,10 @@ void Student::main() {
             }// try
         } // while
     } // for
+    try {
+        delete watcard();
+    } catch ( WATCardOffice::Lost& ) {
+    } catch ( uCancellation& ) {
+    } // try
     printer.print( Printer::Student, id, 'F' );
 }

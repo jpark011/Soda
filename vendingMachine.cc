@@ -52,10 +52,12 @@ VendingMachine::~VendingMachine() {
 ***************************************/
 void VendingMachine::buy( VendingMachine::Flavours flavour, WATCard & card ) {
     if ( card.getBalance() < cost() ) {
+        didBuy = false;
         _Throw Funds();
     } // if
 
     if ( inventories[flavour] <= 0 ) {
+        didBuy = false;
         _Throw Stock();
     } // if
     lastFlavour = flavour;
@@ -133,7 +135,6 @@ void VendingMachine::main() {
                     inventories[lastFlavour]--;
                     printer.print( Printer::Vending, id, 'B', lastFlavour, inventories[lastFlavour] );
                 } // if
-                didBuy = false;
             } or _Accept( inventory ) {
                 printer.print( Printer::Vending, id, 'r' );
                 _Accept( restocked ); // _Accept

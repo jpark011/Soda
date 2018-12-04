@@ -35,6 +35,7 @@ WATCardOffice::~WATCardOffice() {
     while ( !jobs.empty() ) {
         Job * job = jobs.front();
         jobs.pop();
+        job->result.cancel();
         delete job;
     } // while
 }
