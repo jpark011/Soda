@@ -50,7 +50,10 @@ void WATCardOffice::main() {
     printer.print( Printer::WATCardOffice, 'S' );
     while (true) {
         _Accept( ~WATCardOffice ) {
-            _Accept( requestWork );     // final work
+            while ( 0 < numCouriers ) {
+                _Accept( requestWork ) ;     // final work
+                numCouriers--;
+            }
             break;
         } or _Accept( create ) {
             Args args = jobs.front()->args; 
